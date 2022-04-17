@@ -1,35 +1,57 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Graph {
 
+    private HashMap<Vertex, ArrayList<Edge>> adjacencyList;
     private ArrayList<Edge> edges;
+    private ArrayList<Vertex> startVertices;
 
-    public Graph() {
+    public Graph(String file) throws IOException {
         this.edges = new ArrayList<>();
+        this.startVertices = new ArrayList<>();
+        try {
+            if (loadGraph(file) == 1) {
+                throw new IOException();
+            }
+        } catch (IOException ex) {
+            System.err.println("Couldn't load the file...");
+        }
     }
 
-    public void loadGraph() {
+    public int loadGraph(String file) {
         try {
-            File graph = new File("dat/graph.txt");
+            File graph = new File(file);
             Scanner s = new Scanner(graph);
             while (s.hasNextLine()) {
-                this.edges.add(new Edge(s.nextInt(), s.nextInt(), s.nextInt()));
+                Vertex startVertex = new Vertex(s.nextInt());
+                Vertex destVertex = new Vertex(s.nextInt());
+                int price = s.nextInt();
+                Edge edge = new Edge(startVertex, destVertex, price);
+                this.startVertices.add(startVertex);
+                this.edges.add(edge);
+
             }
             s.close();
+            return 0;
         } catch (IOException ex) {
-            System.err.println("Error");
+            return 1;
         }
-        
-            
+
     }
 
     public void getEdges() {
-        for(Edge e : edges) {
-            System.out.println(e.getStartVertex() + " to " + e.getDestVertex() + " price: " + e.getPrice());
+        this.adjacencyList = new HashMap<>();
+    }
+
+    public void getAdjacentEdges() {
+        for (int i = 0; i < this.adjacencyList.size(); i++) {
+
         }
-        System.out.println(this.edges.size());
     }
 }

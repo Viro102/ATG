@@ -1,19 +1,24 @@
 public class Edge {
-    private int startVertex;
-    private int destVertex;
+    private Vertex startVertex;
+    private Vertex destVertex;
     private int price;
 
-    public Edge(int start, int destination, int price) {
+    public Edge(Vertex start, Vertex destination, int price) {
         this.startVertex = start;
         this.destVertex = destination;
         this.price = price;
     }
 
-    public int getStartVertex() {
+    public void printEdge() {
+        System.out.println(
+                "{" + this.startVertex.getId() + ", " + this.destVertex.getId() + ", " + this.getPrice() + "}");
+    }
+
+    public Vertex getStartVertex() {
         return startVertex;
     }
 
-    public int getDestVertex() {
+    public Vertex getDestVertex() {
         return destVertex;
     }
 
