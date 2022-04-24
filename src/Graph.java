@@ -1,18 +1,14 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Graph {
 
-    private HashMap<Vertex, ArrayList<Edge>> adjacencyList;
     private ArrayList<Edge> edges;
-    private ArrayList<Vertex> startVertices;
 
     public Graph(String file) throws IOException {
         this.edges = new ArrayList<>();
-        this.startVertices = new ArrayList<>();
         try {
             if (loadGraph(file) == 1) {
                 throw new IOException();
@@ -23,17 +19,27 @@ public class Graph {
     }
 
     public int loadGraph(String file) {
+        int currentLine = 1;
+        int currentVertex = 0;
         try {
             File graph = new File(file);
             Scanner s = new Scanner(graph);
+            currentVertex = s.nextInt();
             while (s.hasNextLine()) {
-                Vertex startVertex = new Vertex(s.nextInt());
-                Vertex destVertex = new Vertex(s.nextInt());
-                int price = s.nextInt();
-                Edge edge = new Edge(startVertex, destVertex, price);
-                this.startVertices.add(startVertex);
-                this.edges.add(edge);
-
+                Vertex startVertex = new Vertex(currentVertex);
+                while (currentLine == currentVertex) {
+                    Vertex destVertex = new Vertex(s.nextInt());
+                    int price = s.nextInt();
+                    Edge edge = new Edge(startVertex, destVertex, price);
+                    startVertex.addAdjacentEdge(edge);
+                    this.edges.add(edge);
+                    if (s.hasNext()) {
+                        currentVertex = s.nextInt();
+                    } else if (!s.hasNext()) {
+                        break;
+                    }
+                }
+                currentLine++;
             }
             s.close();
             return 0;
@@ -43,13 +49,12 @@ public class Graph {
 
     }
 
-    public void getEdges() {
-        this.adjacencyList = new HashMap<>();
+    public void printEdges() {
+        this.edges.get(0).getStartVertex().printAdjacentEdges();
     }
 
-    public void getAdjacentEdges() {
-        for (int i = 0; i < this.adjacencyList.size(); i++) {
-
-        }
+    public void printIdeg() {
+        System.out.println("" + this.edges.get(0).getStartVertex().getOutDeg());
     }
+
 }

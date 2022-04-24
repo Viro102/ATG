@@ -1,6 +1,7 @@
 public class Main {
     public static void main(String[] args) throws Exception {
         Graph graph = new Graph("dat/graph.txt");
-        graph.getEdges();
+        graph.printEdges();
+        graph.printIdeg();
     }
 }
