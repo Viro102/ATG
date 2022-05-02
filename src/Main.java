@@ -1,7 +1,8 @@
+
 public class Main {
     public static void main(String[] args) throws Exception {
-        Graph graph = new Graph("dat/graph.txt");
-        graph.printEdges();
-        graph.printIdeg();
+        Graf graf = new Graf("dat/graf.txt");
+        graf.vypisHrany();
+        graf.vypisVrcholy();
     }
 }

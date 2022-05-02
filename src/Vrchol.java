@@ -1,26 +1,25 @@
 import java.util.ArrayList;
 
-public class Vertex {
+public class Vrchol {
     private int id;
     private int inDeg;
     private int outDeg;
-    private ArrayList<Edge> adjacentEdges;
+    private ArrayList<Hrana> incidentneHrany;
 
-    public Vertex(int id) {
+    public Vrchol(int id) {
         this.inDeg = 0;
         this.outDeg = 0;
-        this.adjacentEdges = new ArrayList<>();
+        this.incidentneHrany = new ArrayList<>();
         this.id = id;
     }
 
-    public void addAdjacentEdge(Edge edge) {
-        this.adjacentEdges.add(edge);
-        this.outDeg++;
+    public void pridajIncidentnuHranu(Hrana hrana) {
+        this.incidentneHrany.add(hrana);
     }
 
-    public void printAdjacentEdges() {
-        for (Edge edge : this.adjacentEdges) {
-            edge.printEdge();
+    public void vypisIncidentneHrany() {
+        for (Hrana hrana : this.incidentneHrany) {
+            hrana.vypisHranu();
         }
     }
 
