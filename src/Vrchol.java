@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Vrchol {
     private int id;
@@ -40,11 +41,11 @@ public class Vrchol {
 
     }
 
-    public ArrayList<Integer> getVystupne() {
+    public List<Integer> getVystupne() {
         return this.vychadzajuceHrany;
     }
 
-    public ArrayList<Integer> getVstupne() {
+    public List<Integer> getVstupne() {
         return this.vchadzajuceHrany;
     }
 

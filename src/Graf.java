@@ -13,21 +13,52 @@ public class Graf {
     private int[] k;
     private int[] z;
 
-    public Graf(String vrcholy, String hrany) {
+    public Graf() {
         this.vrcholy = new TreeMap<>();
-        this.nacitajGraf(vrcholy, hrany);
     }
 
-    public void nacitajGraf(String vrcholy, String hrany) {
+    public void vyberGraf() {
+        System.out.print("Vyber graf (zadaj cislo len do 4): ");
+        Scanner s = new Scanner(System.in);
+        int i = s.nextInt();
+        s.close();
+        switch (i) {
+            case 1: {
+                this.nacitajGraf("ATG_DAT/Trvania.txt", "ATG_DAT/Hrany.txt");
+                break;
+            }
+            case 2: {
+                this.nacitajGraf("ATG_DAT/ACYKL/CPM_midi.tim", "ATG_DAT/ACYKL/CPM_midi.hrn");
+                break;
+            }
+            case 3: {
+                this.nacitajGraf("ATG_DAT/ACYKL/CPM_mini.tim", "ATG_DAT/ACYKL/CPM_mini.hrn");
+                break;
+            }
+            case 4: {
+                this.nacitajGraf("ATG_DAT/ACYKL/CPM_stred.tim", "ATG_DAT/ACYKL/CPM_stred.hrn");
+                break;
+            }
+            default: {
+                System.out.println("Len do 4");
+                break;
+            }
+        }
+        System.out.println();
+        this.vypisVrcholy();
+    }
+
+    private void nacitajGraf(String vrcholy, String hrany) {
         try {
             File vrcholySubor = new File(vrcholy);
             Scanner s = new Scanner(vrcholySubor);
+            int riadok = 1;
             while (s.hasNext()) {
-                int vrchol = s.nextInt();
                 int cas = s.nextInt();
-                if (this.vrcholy.get(vrchol) == null) {
-                    this.vrcholy.put(vrchol, new Vrchol(vrchol, cas));
+                if (this.vrcholy.get(riadok) == null) {
+                    this.vrcholy.put(riadok, new Vrchol(riadok, cas));
                 }
+                riadok++;
             }
             s.close();
 
@@ -36,6 +67,7 @@ public class Graf {
             while (sc.hasNext()) {
                 int startVrchol = sc.nextInt();
                 int koncVrchol = sc.nextInt();
+                sc.skip(".*");
                 this.vrcholy.get(startVrchol).pridajVychadzajucuHranu(koncVrchol);
                 this.vrcholy.get(koncVrchol).pridajVchadzajucuHranu(startVrchol);
             }
@@ -46,7 +78,7 @@ public class Graf {
 
     }
 
-    public void CPM() {
+    public void cpm() {
         int celkoveTrvanie = cpmZaciatky();
         this.cpmKonce(celkoveTrvanie);
         this.vypisCpm(celkoveTrvanie);
@@ -138,7 +170,7 @@ public class Graf {
     }
 
     private void kritickeCinnosti() {
-        ArrayList<Integer> kritickeCinnosti = new ArrayList<Integer>();
+        ArrayList<Integer> kritickeCinnosti = new ArrayList<>();
         for (int i = 1; i < this.vrcholy.size() + 1; i++) {
             int v = this.vrcholy.get(i).getId();
             int rezerva = this.k[v] - this.z[v] - this.p[v];
@@ -172,10 +204,11 @@ public class Graf {
         System.out.println("Celkove trvanie projektu: " + celkoveTrvanie);
     }
 
-    public void vypisVrcholy() {
+    private void vypisVrcholy() {
         for (Map.Entry<Integer, Vrchol> vrchols : this.vrcholy.entrySet()) {
             System.out.printf("Vrchol %2d, p: %3d, InDeg: %2d, OutDeg: %2d%n", vrchols.getValue().getId(),
                     vrchols.getValue().getTrvanie(), vrchols.getValue().getInDeg(), vrchols.getValue().getOutDeg());
         }
+        System.out.println();
     }
 }
