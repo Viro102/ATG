@@ -1,29 +1,22 @@
 public class Hrana {
-    private Vrchol startVrchol;
-    private Vrchol koncVrchol;
-    private int cena;
+    private int startVrchol;
+    private int koncVrchol;
 
-    public Hrana(Vrchol start, Vrchol koniec, int cena) {
+    public Hrana(int start, int koniec) {
         this.startVrchol = start;
         this.koncVrchol = koniec;
-        this.cena = cena;
     }
 
     public void vypisHranu() {
         System.out.println(
-                "{" + this.startVrchol.getId() + ", " + this.koncVrchol.getId() + ", " + this.getCena() + "}");
+                "{" + this.startVrchol + ", " + this.koncVrchol + "}");
     }
 
-    public Vrchol getStartVrchol() {
+    public int getStartVrchol() {
         return startVrchol;
     }
 
-    public Vrchol getKoncVrchol() {
+    public int getKoncVrchol() {
         return koncVrchol;
     }
-
-    public int getCena() {
-        return cena;
-    }
-
 }

@@ -4,23 +4,48 @@ public class Vrchol {
     private int id;
     private int inDeg;
     private int outDeg;
-    private ArrayList<Hrana> incidentneHrany;
+    private int trvanie;
+    private ArrayList<Integer> vychadzajuceHrany;
+    private ArrayList<Integer> vchadzajuceHrany;
 
-    public Vrchol(int id) {
+    public Vrchol(int id, int trvanie) {
         this.inDeg = 0;
         this.outDeg = 0;
-        this.incidentneHrany = new ArrayList<>();
+        this.vchadzajuceHrany = new ArrayList<>();
+        this.vychadzajuceHrany = new ArrayList<>();
         this.id = id;
+        this.trvanie = trvanie;
     }
 
-    public void pridajIncidentnuHranu(Hrana hrana) {
-        this.incidentneHrany.add(hrana);
+    public void pridajVchadzajucuHranu(int hrana) {
+        this.vchadzajuceHrany.add(hrana);
+        this.inDeg++;
     }
 
-    public void vypisIncidentneHrany() {
-        for (Hrana hrana : this.incidentneHrany) {
-            hrana.vypisHranu();
+    public void pridajVychadzajucuHranu(int hrana) {
+        this.vychadzajuceHrany.add(hrana);
+        this.outDeg++;
+    }
+
+    public void vypisHrany(String typ) {
+        if (typ.equals("vchadzajuce")) {
+            for (int hrana : this.vchadzajuceHrany) {
+                System.out.printf("%d", hrana);
+            }
+        } else if (typ.equals("vychadzajuce")) {
+            for (int hrana : this.vychadzajuceHrany) {
+                System.out.printf("%d", hrana);
+            }
         }
+
+    }
+
+    public ArrayList<Integer> getVystupne() {
+        return this.vychadzajuceHrany;
+    }
+
+    public ArrayList<Integer> getVstupne() {
+        return this.vchadzajuceHrany;
     }
 
     public int getId() {
@@ -35,12 +60,20 @@ public class Vrchol {
         return this.inDeg;
     }
 
+    public int getTrvanie() {
+        return this.trvanie;
+    }
+
     public void setOutDeg(int i) {
         this.outDeg = i;
     }
 
     public void setInDeg(int i) {
         this.inDeg = i;
+    }
+
+    public void odcitajInDeg() {
+        this.inDeg--;
     }
 
 }
