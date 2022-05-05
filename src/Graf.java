@@ -124,7 +124,7 @@ public class Graf {
         this.inicializujCPM();
 
         int[] trvanie = new int[this.vrcholy.size() + 1];
-        int celkoveTrvanie;
+        int celkoveTrvanie = 0;
 
         for (int i = 1; i < this.vrcholy.size() + 1; i++) {
             this.z[i] = 0;
@@ -142,8 +142,13 @@ public class Graf {
             }
         }
 
-        int poslednyVrchol = this.monoton.get(this.monoton.size() - 1).getId(); // na konci je vrchol vzdy odeg = 0
-        celkoveTrvanie = z[poslednyVrchol] + p[poslednyVrchol];
+        for (int i = 1; i < this.monoton.size(); i++) {
+            int porovnanie = z[this.monoton.get(i).getId()] + p[this.monoton.get(i).getId()];
+            if (porovnanie > celkoveTrvanie) {
+                celkoveTrvanie = porovnanie;
+            }
+        }
+
         return celkoveTrvanie;
     }
 
