@@ -6,7 +6,6 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class Graf {
-
     private TreeMap<Integer, Vrchol> vrcholy;
     private ArrayList<Vrchol> monoton;
     private int[] p;
@@ -98,10 +97,10 @@ public class Graf {
         int i = 1;
         while (this.monoton.size() != this.vrcholy.size() + 1) {
             int v = this.monoton.get(i).getId();
-            for (int vrchol : this.vrcholy.get(v).getVystupne()) {
-                this.vrcholy.get(vrchol).odcitajInDeg();
-                if (this.vrcholy.get(vrchol).getInDeg() == 0) {
-                    this.monoton.add(this.vrcholy.get(vrchol));
+            for (Hrana hrana : this.vrcholy.get(v).getVystupne()) {
+                this.vrcholy.get(hrana.getKoncVrchol()).odcitajInDeg();
+                if (this.vrcholy.get(hrana.getKoncVrchol()).getInDeg() == 0) {
+                    this.monoton.add(this.vrcholy.get(hrana.getKoncVrchol()));
                 }
             }
             i++;
@@ -134,10 +133,10 @@ public class Graf {
             Vrchol v = this.monoton.get(i);
 
             for (int j = 0; j < v.getVystupne().size(); j++) {
-                int w = v.getVystupne().get(j);
-                if (z[w] < z[v.getId()] + p[v.getId()]) {
-                    z[w] = z[v.getId()] + p[v.getId()];
-                    trvanie[w] = v.getId();
+                Hrana w = v.getVystupne().get(j);
+                if (z[w.getKoncVrchol()] < z[v.getId()] + p[v.getId()]) {
+                    z[w.getKoncVrchol()] = z[v.getId()] + p[v.getId()];
+                    trvanie[w.getKoncVrchol()] = v.getId();
                 }
             }
         }
@@ -164,11 +163,11 @@ public class Graf {
             Vrchol v = this.monoton.get(i);
 
             for (int j = 0; j < v.getVystupne().size(); j++) {
-                int w = v.getVystupne().get(j); // vrchol vo vystupnej hviezde
+                Hrana w = v.getVystupne().get(j); // vrchol vo vystupnej hviezde
 
-                if (k[v.getId()] > (k[w] - p[w])) {
-                    k[v.getId()] = k[w] - p[w];
-                    trvanie[v.getId()] = w;
+                if (k[v.getId()] > (k[w.getKoncVrchol()] - p[w.getKoncVrchol()])) {
+                    k[v.getId()] = k[w.getKoncVrchol()] - p[w.getKoncVrchol()];
+                    trvanie[v.getId()] = w.getKoncVrchol();
                 }
             }
         }
