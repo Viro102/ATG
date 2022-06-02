@@ -6,8 +6,8 @@ public class Vrchol {
     private int inDeg;
     private int outDeg;
     private int trvanie;
-    private ArrayList<Integer> vychadzajuceHrany;
-    private ArrayList<Integer> vchadzajuceHrany;
+    private ArrayList<Hrana> vychadzajuceHrany;
+    private ArrayList<Hrana> vchadzajuceHrany;
 
     public Vrchol(int id, int trvanie) {
         this.inDeg = 0;
@@ -18,34 +18,52 @@ public class Vrchol {
         this.trvanie = trvanie;
     }
 
-    public void pridajVchadzajucuHranu(int hrana) {
-        this.vchadzajuceHrany.add(hrana);
+    public Vrchol(int id) {
+        this.inDeg = 0;
+        this.outDeg = 0;
+        this.vchadzajuceHrany = new ArrayList<>();
+        this.vychadzajuceHrany = new ArrayList<>();
+        this.id = id;
+    }
+
+    public void pridajVchadzajucuHranu(int hrana, int cena) {
+        this.vchadzajuceHrany.add(new Hrana(hrana, this.id, cena));
         this.inDeg++;
     }
 
+    public void pridajVchadzajucuHranu(int hrana) {
+        this.vchadzajuceHrany.add(new Hrana(hrana, this.id));
+        this.inDeg++;
+    }
+
+    public void pridajVychadzajucuHranu(int hrana, int cena) {
+        this.vychadzajuceHrany.add(new Hrana(this.id, hrana, cena));
+        this.outDeg++;
+    }
+
     public void pridajVychadzajucuHranu(int hrana) {
-        this.vychadzajuceHrany.add(hrana);
+        this.vychadzajuceHrany.add(new Hrana(this.id, hrana));
         this.outDeg++;
     }
 
     public void vypisHrany(String typ) {
         if (typ.equals("vchadzajuce")) {
-            for (int hrana : this.vchadzajuceHrany) {
-                System.out.printf("%d", hrana);
+            for (Hrana hrana : this.vchadzajuceHrany) {
+                System.out.printf("%d", hrana.getStartVrchol());
             }
         } else if (typ.equals("vychadzajuce")) {
-            for (int hrana : this.vychadzajuceHrany) {
-                System.out.printf("%d", hrana);
+            for (Hrana hrana : this.vychadzajuceHrany) {
+                System.out.printf("%d", hrana.getKoncVrchol());
             }
         }
 
     }
 
-    public List<Integer> getVystupne() {
+    public List<Hrana> getVystupne() {
         return this.vychadzajuceHrany;
     }
 
-    public List<Integer> getVstupne() {
+    public List<Hrana> getVstupne() {
         return this.vchadzajuceHrany;
     }
 
@@ -63,14 +81,6 @@ public class Vrchol {
 
     public int getTrvanie() {
         return this.trvanie;
-    }
-
-    public void setOutDeg(int i) {
-        this.outDeg = i;
-    }
-
-    public void setInDeg(int i) {
-        this.inDeg = i;
     }
 
     public void odcitajInDeg() {
